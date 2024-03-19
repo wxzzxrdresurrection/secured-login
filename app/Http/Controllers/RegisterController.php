@@ -29,7 +29,7 @@ class RegisterController extends Controller
     {
         try{
             $env = env('RECAPTCHA_SITE_KEY');
-            return view('welcome', ['siteKey' => $env]);
+            return view('welcome', ['siteKey' => "6LdUl14pAAAAABdQ-AFh6c6iYCYNvURFy1UYh-3p"]);
         }
         catch(Exception $e){
             Log::error("Error: $e");
@@ -77,7 +77,7 @@ class RegisterController extends Controller
 
             #Consultar el servicio de google para validar el captcha
             $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-                'secret' => env('RECAPTCHA_SECRET_KEY'),
+                'secret' => env('6LdUl14pAAAAAMvTv8F3KGKItWzd8kzKna5zTN0u'),
                 'response' => $request->input('g-recaptcha-response'),
             ]);
 
