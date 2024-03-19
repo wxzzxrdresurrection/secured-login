@@ -77,7 +77,7 @@ class RegisterController extends Controller
 
             #Consultar el servicio de google para validar el captcha
             $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-                'secret' => env('6LdUl14pAAAAAMvTv8F3KGKItWzd8kzKna5zTN0u'),
+                'secret' => '6LdUl14pAAAAAMvTv8F3KGKItWzd8kzKna5zTN0u',
                 'response' => $request->input('g-recaptcha-response'),
             ]);
 
