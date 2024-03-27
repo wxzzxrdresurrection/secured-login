@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use PHPUnit\TextUI\Configuration\Constant;
 
 class RegisterController extends Controller
 {
@@ -225,7 +224,6 @@ class RegisterController extends Controller
 
             #Consultar el usuario
             $user = User::where('email', $request->input('email'))->first();
-
             #Regresar si el usuario no existe o la contraseña es incorrecta
             if(!$user || !Hash::check($request->input('password'), $user->password)){
                 return redirect('/login')->withErrors(['login' => 'Usuario o contraseña incorrectos']);
@@ -248,39 +246,35 @@ class RegisterController extends Controller
                 return redirect('/verify/mail');
             }
 
+            $code = rand(100000, 999999);
+
+            #Crear ruta firmada para activar el usuario
+            $url = URL::temporarySignedRoute(
+                'authentication', now()->addMinutes(30), ['id' => $user->id]
+            );
 
             if($user->role_id == Constants::getAdminRole()){
-
-                $code = rand(100000, 999999);
-
-                #Crear ruta firmada para activar el usuario
-                $url = URL::temporarySignedRoute(
-                    'authentication', now()->addMinutes(30), ['id' => $user->id]
-                );
-
-                Log::info('Ruta creada', ['url' => $url]);
-
-                #Enviar correo electronico
-                TFAJob::dispatch($user, $code)
-                ->delay(now()->addSeconds(10))
-                ->onQueue('mails')
-                ->onConnection('database');
-
-                $user->code = Hash::make($code);
-                $user->save();
-
-                return redirect('/verify/code')->with('url',$url)->withHeaders([
-                    'Authorization' => 'Basic ' . base64_encode($user->email . ':' . $user->password),
-                ]);
+                $extraCode = rand(100000, 999999);
             }
-            #Iniciar sesion
-            Auth::login($user,true);
 
-            #Redireccionar a la pagina principal
-            Log::info('Inicio de sesion de usuario');
-            return redirect('/home')->with('user', $user)->withHeaders([
-                'Authorization' => 'Basic ' . base64_encode($user->email . ':' . $user->password),
-            ]);
+            $codeToSend = $user->role_id == Constants::getAdminRole() ? $extraCode : $code;
+
+            #Enviar correo electronico
+            TFAJob::dispatch($user, $codeToSend)
+            ->delay(now()->addSeconds(10))
+            ->onQueue('mails')
+            ->onConnection('database');
+
+            $user->code = Hash::make($code);
+
+            if($user->role_id == Constants::getAdminRole())
+            {
+                $user->extra_code = Hash::make($extraCode);
+            }
+
+            $user->save();
+
+            return redirect('/verify/code')->with('url',$url);
 
         }
         catch(PDOException $e){
@@ -322,7 +316,7 @@ class RegisterController extends Controller
 
             #Validar informacion del request
             $validator = Validator::make($request->all(), [
-                'code' => 'required',
+                'code' => 'required|numeric|digits:6',
             ]);
 
             #Regresar si hay errores
@@ -348,10 +342,8 @@ class RegisterController extends Controller
             #Iniciar sesion
             Auth::login($user,true);
 
-            Log::info('Inicio sesión de admin');
-            return redirect('/home')->with('user', $user)->withHeaders([
-                'Authorization' => 'Basic ' . base64_encode($user->email . ':' . $user->password),
-            ]);
+            Log::info("El usuario $user->email ha iniciado sesion");
+            return redirect('/home')->with('user', $user);
         }
         catch(PDOException $e){
             Log::error("Error: $e");
@@ -369,7 +361,6 @@ class RegisterController extends Controller
             Log::error("Error: $e");
             return redirect('/login')->withErrors(['error' => Constants::getExceptionMessage()]);
         }
-
 
     }
 

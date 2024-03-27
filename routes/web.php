@@ -20,7 +20,8 @@ Route::get('/login', [RegisterController::class, 'loginView'])->name('loginView'
 Route::post('/signIn', [RegisterController::class, 'login'])->name('login');
 Route::get('/home', [RegisterController::class, 'homeView'])->name('home')->middleware('auth');
 Route::get('/activate/{id}', [RegisterController::class, 'activate'])->where('id','[0-9]+')->name('activate');
-Route::post('/authentication/{id}',[RegisterController::class, 'authentication'])->where('id','[0-9]+')->middleware('signed')->name('authentication');
+Route::post('/authentication/{id}',[RegisterController::class, 'authentication'])
+    ->where('id','[0-9]+')->middleware('signed')->name('authentication');
 Route::get('/logout', [RegisterController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::prefix('/verify')->group(function (){
