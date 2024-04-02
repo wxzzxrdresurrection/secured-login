@@ -375,8 +375,8 @@ class RegisterController extends Controller
             }
 
             #Obtener el rol del usuario para mostrar la vista
-            $role = Auth::user()->role_id;
-            return view('home', ['role' => $role]);
+            $user = Auth::user();
+            return view('home', ['user' => $user]);
         }
         catch(PDOException $e){
             Log::error("Error: $e");
