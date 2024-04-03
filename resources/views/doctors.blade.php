@@ -57,11 +57,11 @@
                             tabindex="-1"
                             aria-labelledby="exampleModalLabel"
                             aria-hidden="true">
-                            <form action="/updateDoctor/{{ $doctor->id }}" method="POST">
+                            <form action="{{ route('updateDoctor',$doctor->id) }}" method="POST">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Actualizar Doctoe</h1>
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Actualizar Doctor</h1>
                                             <button type="button" class="btn-close"
                                                 data-bs-dismiss="modal"
                                                 aria-label="Close">

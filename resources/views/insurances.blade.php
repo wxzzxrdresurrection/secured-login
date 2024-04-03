@@ -58,7 +58,7 @@
                     @endif
                 </tr>
                 <div class="modal fade" id="modal-{{ $insurance->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <form action="/updateInsurance/{{ $insurance->id }}" method="POST">
+                    <form action="{{ route('updateInsurance',$insurance->id) }}" method="POST">
                         @method('POST')
                         @csrf
                         <div class="modal-dialog">
@@ -86,7 +86,7 @@
             </tbody>
         </table>
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <form action="/addInsurance" method="POST">
+            <form action="{{route('addInsurance')}}" method="POST">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
