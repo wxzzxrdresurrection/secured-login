@@ -9,12 +9,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     @vite(['resources/css/app.css','resources/js/app.js'])
-    <title>Especialidades</title>
+    <title>Usuarios</title>
 </head>
 
 <body class="bg-sky-200">
     <x-navbar />
-    <h1 class="text-center text-3xl mt-4">Especialidades</h1>
+    <h1 class="text-center text-3xl mt-4">Usuarios</h1>
     @if (session('status'))
     <div class="flex justify-center rounded-md">
         <div class="text-center bg-white px-32 shadow-md">
@@ -22,55 +22,85 @@
         </div>
     </div>
     @endif
-    @if ($user->role_id != 3)
-        <div class="flex justify-center; ml-[68%] mb-[1%]">
-            <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="bi bi-plus-circle-fill"></i>Agregar
-            </button>
+
+    @if ($errors->any())
+    <div class="flex justify-center rounded-md">
+        <div class="text-center bg-white px-32 shadow-md">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
     @endif
+
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg" style="width:60%; margin:auto;">
         <table class="w-full text-sm rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-white uppercase bg-gray-800 dark:bg-gray-700 dark:text-gray-400">
                 <tr style="text-align: center;">
                     <th class="border py-3">Id</th>
                     <th class="border py-3">Nombre</th>
-                    @if ($user->role_id != 3 )
-                        <th class="border py-3">Acciones</th>
-                    @endif
+                    <th class="border py-3">Correo</th>
+                    <th class="border py-3">Telefono</th>
+                    <th class="border py-3">Rol</th>
+                    <th class="border py-3">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($specialties as $specialty)
+                @foreach ($users as $user)
                 <tr class="border border-collapse bg-white text-center">
-                    <td class="border px-6 py-2">{{ $specialty->id }}</td>
-                    <td class="border px-6 py-2">{{ $specialty->name }}</td>
-                @if ($user->role_id != 3 )
-                <td class="border px-6 py-2">
-                    <button class="bg-blue-500 rounded-sm px-2 text-white">
-                        <i class="bi bi-pencil-square" data-bs-target="#modal-{{ $specialty->id }}" data-bs-toggle="modal"></i></button>
-                    <a href="{{route('deleteSpecialty', $specialty->id)}}">
-                        <button class="bg-red-500 rounded-sm px-2 text-white">
-                            <i class="bi bi-trash3-fill"></i></button>
-                    </a>
-                </td>
-                @endif
+                    <td class="border px-6 py-2">{{ $user->id }}</td>
+                    <td class="border px-6 py-2">{{ $user->name }}</td>
+                    <td class="border px-6 py-2">{{ $user->email }}</td>
+                    <td class="border px-6 py-2">{{ $user->phone }}</td>
+                    <td class="border px-6 py-2">{{ $user->role->name }}</td>
+                    <td class="border px-6 py-2">
+                        <button class="bg-blue-500 rounded-sm px-2 text-white">
+                            <i class="bi bi-pencil-square" data-bs-target="#modal-{{ $user->id }}" data-bs-toggle="modal"></i></button>
+                        <a href="{{route('deleteUser', $user->id)}}">
+                            <button class="bg-red-500 rounded-sm px-2 text-white">
+                                <i class="bi bi-trash3-fill"></i></button>
+                        </a>
+                    </td>
                 </tr>
-                <div class="modal fade" id="modal-{{ $specialty->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <form action="/updateInsurance/{{ $specialty->id }}" method="POST">
+                <div class="modal fade" id="modal-{{ $user->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <form action="/updateUser/{{ $user->id }}" method="POST">
                         @method('POST')
                         @csrf
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Especialidad</h1>
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Usuario</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                     </button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Nombre</label>
-                                        <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="name" value="{{ $specialty->name }}">
+                                        <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="name" value="{{ $user->name }}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Correo</label>
+                                        <input type="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="email" value="{{ $user->email }}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="phone" class="form-label">Telefono</label>
+                                        <input type="tel" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="phone" value="{{ $user->phone }}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="role" class="form-label">Rol</label>
+                                        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="role_id" id="role_id">
+                                            @foreach ($roles as $role)
+                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="phone" class="form-label">Estado</label>
+                                        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="active" id="active">
+                                            <option value="1">Activo</option>
+                                            <option value="0">Inactivo</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -84,8 +114,8 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <form action="/addSpecialty" method="POST">
+        {{-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <form action="/add" method="POST">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -107,7 +137,7 @@
                     </div>
                 </div>
             </form>
-        </div>
+        </div> --}}
     </div>
 </body>
 

@@ -15,7 +15,9 @@ class DatabaseSeeder extends Seeder
              RoleSeeder::class,
              UserSeeder::class,
              SpecialtySeeder::class,
-             InsuranceSeeder::class
+             InsuranceSeeder::class,
+             DoctorSeeder::class,
+             PatientSeeder::class
         ]);
     }
 }

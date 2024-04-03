@@ -45,7 +45,6 @@ class RegisterController extends Controller
             #Validar informacion del request
             $validator = Validator::make($request->all(), [
                     'g-recaptcha-response' => 'required',
-
                     'name' => 'required|max:100|regex:/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/',
                     'email' => 'required|email',
                     'password' => 'required|min:8|confirmed',

@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\InsuranceController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SpecialtyController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,22 +38,49 @@ Route::prefix('/verify')->group(function (){
 })->middleware('auth');
 
 
-Route::group([],function(){
+Route::middleware('auth')->group(function (){
     Route::get('/insurances',[InsuranceController::class, 'index'])->name('insurances');
     Route::get('/specialties',[SpecialtyController::class, 'index'])->name('specialties');
+    Route::get('/doctors',[DoctorController::class, 'index'])->name('doctors');
+    Route::get('/patients', [PatientController::class, 'index'])->name('patients');
     Route::post('/addInsurance',[InsuranceController::class, 'add'])->name('addInsurance');
     Route::post('/addSpecialty',[SpecialtyController::class, 'add'])->name('addSpecialty');
+    Route::post('/addDoctor', [DoctorController::class, 'add'])->name('addDoctor');
+    Route::post('/addPatient', [PatientController::class, 'add'])->name('addPatient');
+
 
     Route::post('/updateInsurance/{id}',[InsuranceController::class, 'update'])
-        ->where('id',REGEX)->name('updateInsurance');
+    ->where('id',REGEX)->name('updateInsurance');
 
     Route::post('/updateSpecialty/{id}',[SpecialtyController::class, 'update'])
-        ->where('id', REGEX)->name('updateSpecialty');
+    ->where('id', REGEX)->name('updateSpecialty');
+
+    Route::post('/updateDoctor/{id}', [DoctorController::class, 'update'])
+    ->where('id', REGEX)->name('updateDoctor');
+
+    Route::post('/updatePatient/{id}', [PatientController::class, 'update'])
+    ->where('id', REGEX)->name('updatePatient');
 
     Route::get('/deleteInsurance/{id}',[InsuranceController::class, 'delete'])
-        ->where('id', REGEX)->name('deleteInsurance');
+    ->where('id', REGEX)->name('deleteInsurance');
 
     Route::get('/deleteSpecialty/{id}',[SpecialtyController::class, 'delete'])
-        ->where('id', REGEX)->name('deleteSpecialty');
+    ->where('id', REGEX)->name('deleteSpecialty');
 
-})->middleware('auth');
+    Route::get('/deleteDoctor/{id}', [DoctorController::class, 'delete'])
+    ->where('id', REGEX)->name('deleteDoctor');
+
+    Route::get('/deletePatient/{id}', [PatientController::class, 'delete'])
+    ->where('id', REGEX)->name('deletePatient');
+
+    Route::middleware('role:1')->group(function (){
+        Route::get('/users',[UsersController::class, 'index'])->name('users');
+
+        Route::post('/updateUser/{id}',[UsersController::class, 'update'])
+            ->where('id', REGEX)->name('updateUser');
+
+        Route::get('/deleteUser/{id}',[UsersController::class, 'delete'])
+            ->where('id', REGEX)->name('deleteUser');
+    });
+
+});

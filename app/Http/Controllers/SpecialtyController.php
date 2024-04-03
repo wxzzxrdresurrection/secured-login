@@ -38,10 +38,10 @@ class SpecialtyController extends Controller
 
         if ($specialty->save())
         {
-            return redirect()->route('insurances')->with(
+            return redirect()->route('specialties')->with(
             [
                 'status' => 'success',
-                'message' => 'Compañía de seguros agregada correctamente',
+                'message' => 'Especialidad agregada correctamente',
                 'data' => $specialty
             ]);
         }
