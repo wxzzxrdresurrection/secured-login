@@ -22,7 +22,7 @@ class UsersController extends Controller
             'email' => 'required|email',
             'phone' => 'required|numeric',
             'active' => 'required|boolean',
-            'role_id' => 'required|numeric|max:1'
+            'role_id' => 'required|numeric|exists:roles,id'
         ],
         [
             'name.required' => 'El campo :attribute es obligatorio',
@@ -37,9 +37,8 @@ class UsersController extends Controller
             'active.boolean' => 'El campo :attribute debe ser un valor booleano',
             'role_id.required' => 'El campo :attribute es obligatorio',
             'role_id.numeric' => 'El campo :attribute debe ser un número',
-            'role_id.max' => 'El campo :attribute debe ser máximo 1'
+            'role_id.exists' => 'El campo :attribute no existe en la tabla roles'
         ]);
-
 
         if ($validate->fails())
         {

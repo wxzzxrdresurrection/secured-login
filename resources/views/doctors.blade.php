@@ -29,7 +29,9 @@
                         <th scope="col" class="border px-6 py-3">Nombre</th>
                         <th scope="col" class="border px-6 py-3">Apellidos</th>
                         <th scope="col" class="border px-6 py-3">Especialidad</th>
+                        @if ($user->role_id != 3)
                         <th scope="col" class="border px-6 py-3">Acciones</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>

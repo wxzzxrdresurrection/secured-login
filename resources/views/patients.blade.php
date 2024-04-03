@@ -32,7 +32,9 @@
                         <th scope="col" class="border px-6 py-3">Género</th>
                         <th scope="col" class="border px-6 py-3">Fecha de nacimiento</th>
                         <th scope="col" class="border px-6 py-3">Aseguradora</th>
+                        @if ($user->role_id != 3)
                         <th scope="col" class="border px-6 py-3">Acciones</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
