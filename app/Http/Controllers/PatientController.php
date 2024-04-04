@@ -29,8 +29,6 @@ class PatientController extends Controller
         ]);
     }
 
-
-
     public function add(Request $request)
     {
         $validate = Validator::make($request->all(),
