@@ -11,13 +11,28 @@
     <title>Home</title>
 </head>
 <x-navbar/>
-<body style="background-color: white">
+<body class="bg-sky-200">
     @if ($user->role_id ==  1 )
-    <h1>Vista de administrador</h1>
+    <h1 class="text-center mt-5">Panel de administrador</h1>
+    @elseif ($user->role_id == 2)
+    <h1 class="text-center mt-5">Panel de coordinador</h1>
+    @elseif ($user->role_id == 3)
+    <h1 class="text-center mt-5">Panel de usuario</h1>
     @endif
-    @if ($user->role_id ==  2 )
-    <h1>Vista de usuario</h1>
-    @endif
-    <a href="{{route('logout')}}"><button>Logout</button></a>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">Informacion del usuario</h3>
+                    </div>
+                    <div class="card-body text-center">
+                        <p><strong>Nombre:</strong> {{$user->name}}</p>
+                        <p><strong>Telefono:</strong> {{$user->phone}}</p>
+                        <p><strong>Email:</strong> {{$user->email}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 </body>
 </html>
