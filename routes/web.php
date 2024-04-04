@@ -25,10 +25,9 @@ Route::get('/', [RegisterController::class, 'registerView'])->name('registerView
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
 Route::get('/login', [RegisterController::class, 'loginView'])->name('loginView');
 Route::post('/signIn', [RegisterController::class, 'login'])->name('login');
-Route::get('/home', [RegisterController::class, 'homeView'])->name('home')->middleware('auth');
 Route::get('/activate/{id}', [RegisterController::class, 'activate'])->where('id', REGEX)->name('activate');
 Route::post('/authentication/{id}',[RegisterController::class, 'authentication'])
-    ->where('id','[0-9]+')->middleware('signed')->name('authentication');
+->where('id','[0-9]+')->middleware('signed')->name('authentication');
 Route::get('/logout', [RegisterController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::prefix('/verify')->group(function (){
@@ -38,7 +37,8 @@ Route::prefix('/verify')->group(function (){
 })->middleware('auth');
 
 
-Route::middleware('auth')->group(function (){
+Route::middleware(['auth'])->group(function (){
+    Route::get('/home', [RegisterController::class, 'homeView'])->name('home');
     Route::get('/insurances',[InsuranceController::class, 'index'])->name('insurances');
     Route::get('/specialties',[SpecialtyController::class, 'index'])->name('specialties');
     Route::get('/doctors',[DoctorController::class, 'index'])->name('doctors');
@@ -74,7 +74,7 @@ Route::middleware('auth')->group(function (){
 
         Route::get('/deletePatient/{id}', [PatientController::class, 'delete'])
         ->where('id', REGEX)->name('deletePatient');
-        
+
     });
 
 
