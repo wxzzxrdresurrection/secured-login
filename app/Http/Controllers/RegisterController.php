@@ -344,7 +344,7 @@ class RegisterController extends Controller
             }
 
             #Iniciar sesion
-            Auth::login($user,true);
+            Auth::loginUsingId($user->id);
 
             Log::info("El usuario $user->email ha iniciado sesion");
             return redirect('/home')->with('user', $user);
