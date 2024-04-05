@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 60);
             $table->string('last_name', 60);
+            $table->enum('gender', ['M', 'F']);
             $table->date('birth_date');
             $table->unsignedBigInteger('insurance_id')->nullable();
             $table->timestamps();
