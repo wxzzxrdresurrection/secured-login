@@ -3,7 +3,7 @@
 namespace App\Models;
 
 const ADMIN_ROLE = 1;
-const USER_ROLE = 2;
+const USER_ROLE = 3;
 
 class Constants
 {
