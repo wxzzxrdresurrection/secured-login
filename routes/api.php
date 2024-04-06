@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::prefix('v1')->group(function(){
     Route::post('/login', [ApiController::class, 'login']);
-    Route::middleware(['auth:sanctum','admin'])->get('/logout', [ApiController::class, 'apiLogout']);
-    Route::middleware(['auth:sanctum','admin'])->post('/verify', [ApiController::class, 'verifyCode']);
+    Route::middleware(['auth:sanctum'])->get('/logout', [ApiController::class, 'apiLogout']);
+    Route::middleware(['auth:sanctum'])->post('/verify', [ApiController::class, 'verifyCode']);
 });
 

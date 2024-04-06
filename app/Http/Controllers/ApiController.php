@@ -148,6 +148,15 @@ class ApiController extends Controller
 
             #Verificar código
             $user = $request->user();
+
+            if(($user->role_id == Constants::getAdminRole() || $request->ip() != '10.8.20.29')
+            || ($user->role_id == Constants::getUserRole() || $request->ip() == '10.8.20.29')){
+                return response()->json([
+                    'message' => 'Access Denied',
+                    'success' => false
+                ], 401);
+            }
+
             $code = rand(100000, 999999);
             $user->code = Hash::make($code);
             $user->save();
