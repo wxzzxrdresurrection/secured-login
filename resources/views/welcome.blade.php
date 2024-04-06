@@ -9,6 +9,7 @@
     </head>
     <body>
     <form action="{{route('register')}}" method="POST">
+        @method('POST')
         @csrf
         <div class="form-frame">
             @error('name')

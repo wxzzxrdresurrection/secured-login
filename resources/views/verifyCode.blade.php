@@ -9,6 +9,7 @@
 </head>
 <body>
     <form method="POST" id="form">
+        @method('POST')
         @csrf
         <div class="form-frame">
             @error('login')

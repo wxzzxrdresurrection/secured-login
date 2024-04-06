@@ -15,8 +15,8 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (($request->user()->role->id == 1 || $request->ip() != '192.168.1.2')
-            || ($request->user()->role->id == 3 || $request->ip() == '192.168.1.2')) {
+        if (($request->user()->role->id == 1 || $request->ip() != '10.8.20.29')
+            || ($request->user()->role->id == 3 || $request->ip() == '10.8.20.29')) {
             return redirect()->route('loginView');
         }
 

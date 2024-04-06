@@ -37,7 +37,7 @@ Route::prefix('/verify')->group(function (){
 })->middleware('auth');
 
 
-Route::middleware(['auth','active'])->group(function (){
+Route::middleware(['auth','active','admin'])->group(function (){
     Route::get('/home', [RegisterController::class, 'homeView'])->name('home');
     Route::get('/insurances',[InsuranceController::class, 'index'])->name('insurances');
     Route::get('/specialties',[SpecialtyController::class, 'index'])->name('specialties');
