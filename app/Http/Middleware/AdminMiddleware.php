@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminMiddleware
@@ -15,8 +16,9 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (($request->user()->role_id == 1 || $request->ip() != '10.8.20.29')
-            || ($request->user()->role_id == 3 || $request->ip() == '10.8.20.29')) {
+
+        if ((Auth::user()->role_id == 1 || $request->ip() != '10.8.20.29')
+            || (Auth::user()->role_id == 3 || $request->ip() == '10.8.20.29')) {
             return redirect()->route('loginView');
         }
 
