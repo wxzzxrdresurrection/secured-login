@@ -65,23 +65,21 @@ class RegisterController extends Controller
                 ]
             );
 
-
-            #Regresar si hay errores
-            if ($validator->fails()) {
-                return redirect('/')
-                            ->withErrors($validator->errors())
-                            ->withInput();
-            }
-
             #Consultar el servicio de google para validar el captcha
             $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
                 'secret' => '6LdUl14pAAAAAMvTv8F3KGKItWzd8kzKna5zTN0u',
                 'response' => $request->input('g-recaptcha-response'),
             ]);
 
-            #Regresar si el captcha no es valido
-            if(!$response->json()['success']){
-                return redirect('/')->withErrors(['error' => 'Captcha invalido']);
+            $isCaptchaValid = $response->json()['success'];
+
+            if ($validator->fails() || !$isCaptchaValid) {
+                if (!$isCaptchaValid) {
+                    $validator->errors()->add('captcha', 'Captcha inválido. Intente de nuevo');
+                }
+                return back()
+                            ->withErrors($validator->errors());
+                            //->withInput();
             }
 
             #Consultar los usuarios
