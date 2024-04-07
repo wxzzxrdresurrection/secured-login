@@ -57,10 +57,12 @@
                     <td class="border px-6 py-2">
                         <button class="bg-blue-500 rounded-sm px-2 text-white">
                             <i class="bi bi-pencil-square" data-bs-target="#modal-{{ $user->id }}" data-bs-toggle="modal"></i></button>
+                        @if ($user->id != auth()->user()->id)
                         <a href="{{route('deleteUser', $user->id)}}">
                             <button class="bg-red-500 rounded-sm px-2 text-white">
                                 <i class="bi bi-trash3-fill"></i></button>
-                        </a>
+                            </a>
+                        @endif
                     </td>
                 </tr>
                 <div class="modal fade" id="modal-{{ $user->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

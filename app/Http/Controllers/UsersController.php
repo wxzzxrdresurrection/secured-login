@@ -8,6 +8,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -124,7 +125,13 @@ class UsersController extends Controller
     public function delete($id)
     {
         try {
+
             $user = User::find($id);
+
+            if (Auth::user()->role_id == $id)
+            {
+                return back()->withErrors(['error' => 'No puedes eliminar un usuario administrador']);
+            }
 
             if (!$user)
             {
