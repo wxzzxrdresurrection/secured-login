@@ -250,30 +250,25 @@ class RegisterController extends Controller
                 return redirect('/verify/mail');
             }
 
-            $code = rand(100000, 999999);
-
             #Crear ruta firmada para activar el usuario
             $url = URL::temporarySignedRoute(
                 'authentication', now()->addMinutes(30), ['id' => $user->id]
             );
 
-            if($user->role_id == Constants::getAdminRole()){
-                $extraCode = rand(100000, 999999);
-            }
-
-            $codeToSend = $user->role_id == Constants::getAdminRole() ? $extraCode : $code;
+            $code = rand(100000, 999999);
 
             #Enviar correo electronico
-            TFAJob::dispatch($user, $codeToSend)
+            TFAJob::dispatch($user, $code)
             ->delay(now()->addSeconds(10))
             ->onQueue('mails')
             ->onConnection('database');
 
-            $user->code = Hash::make($code);
-
             if($user->role_id == Constants::getAdminRole())
             {
-                $user->extra_code = Hash::make($extraCode);
+                $user->extra_code = Hash::make($code);
+            }
+            else{
+                $user->code = Hash::make($code);
             }
 
             $user->save();
@@ -336,6 +331,10 @@ class RegisterController extends Controller
             #Regresar si el usuario no existe
             if(!$user){
                 return redirect('/login')->withErrors(['error' => 'Usuario no encontrado']);
+            }
+
+            if($user->code == null){
+                return redirect('/verify/code')->withErrors(['error' => 'Codigo incorrecto']);
             }
 
             #Regresar si el codigo es incorrecto
