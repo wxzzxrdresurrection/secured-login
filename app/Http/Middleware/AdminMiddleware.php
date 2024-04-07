@@ -17,8 +17,8 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
 
-        if ((Auth::user()->role_id == 1 || $request->ip() != '10.8.20.29')
-            || (Auth::user()->role_id == 3 || $request->ip() == '10.8.20.29')) {
+        if ((Auth::user()->role_id == 1 && $request->ip() != '10.8.20.29')
+            || (Auth::user()->role_id == 3 && $request->ip() == '10.8.20.29')) {
             return redirect()->route('loginView');
         }
 
