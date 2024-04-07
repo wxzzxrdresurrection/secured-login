@@ -149,7 +149,7 @@ class ApiController extends Controller
             #Verificar código
             $user = $request->user();
 
-            dd($user);
+            dd($request->ip());
 
             // if(($user->role_id == Constants::getAdminRole() || $request->ip() != '10.8.20.29')
             // || ($user->role_id == Constants::getUserRole() || $request->ip() == '10.8.20.29')){
