@@ -228,7 +228,7 @@ class RegisterController extends Controller
 
             #Regresar si el admin no se encuentra en la VPN y el usuario entra por VPN
             if(($user->id == Constants::getAdminRole() && $request->ip() != '10.8.20.29')
-                || ($user->id != Constants::getAdminRole() && $request->ip() != '10.8.20.29')){
+                || ($user->id == Constants::getUserRole() && $request->ip() == '10.8.20.29')){
                 return redirect('/login')->withErrors(['login' => 'Acceso restringido']);
             }
 
