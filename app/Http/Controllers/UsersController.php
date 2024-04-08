@@ -19,7 +19,8 @@ class UsersController extends Controller
     public function index()
     {
         try {
-            return view('users', ['users' => User::all(), 'roles' => Role::all()]);
+            $users = User::orderBy('id', 'asc')->get();
+            return view('users', ['users' => $users, 'roles' => Role::all()]);
         }
         catch(ValidationException $e)
         {
