@@ -16,7 +16,7 @@ class PatientController extends Controller
 
         $patients = Patient::leftJoin('insurances', 'patients.insurance_id', '=', 'insurances.id')
             ->select('patients.id', 'patients.name', 'patients.last_name',"patients.gender",
-            'patients.birth_date','patients.insurance_id', 'insurances.name as insurance_name')
+            'patients.insurance_id', 'insurances.name as insurance_name')
             ->orderBy('id', 'asc')->get();
 
         $insurances = Insurance::all();
@@ -35,7 +35,6 @@ class PatientController extends Controller
         [
             'name' => 'required',
             'last_name' => 'required',
-            'birth_date' => 'required',
             'gender' => 'required',
             'insurance_id' => 'required|integer',
         ],
@@ -53,7 +52,6 @@ class PatientController extends Controller
         $patient = Patient::create([
             "name" => $request->name,
             "last_name" => $request->last_name,
-            "birth_date" => $request->birth_date,
             "gender" => $request->gender,
             "insurance_id" => $request->insurance_id
         ]);
@@ -72,7 +70,6 @@ class PatientController extends Controller
         [
             'name' => 'required',
             'last_name' => 'required',
-            'birth_date' => 'required',
             'gender' => 'required',
             'insurance_id' => 'required|integer',
         ],
@@ -97,7 +94,6 @@ class PatientController extends Controller
         $patient->update([
             "name" => $request->name,
             "last_name" => $request->last_name,
-            "birth_date" => $request->birth_date,
             "gender" => $request->gender,
             "insurance_id" => $request->insurance_id
         ]);
@@ -117,7 +113,7 @@ class PatientController extends Controller
 
         if (!$patient)
         {
-            return back();
+            return back()->withErrors(['error' => 'Paciente no encontrado']);
         }
 
         $patient->delete();

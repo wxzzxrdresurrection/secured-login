@@ -30,7 +30,6 @@
                         <th scope="col" class="border px-6 py-3">Nombre</th>
                         <th scope="col" class="border px-6 py-3">Apellidos</th>
                         <th scope="col" class="border px-6 py-3">Género</th>
-                        <th scope="col" class="border px-6 py-3">Fecha de nacimiento</th>
                         <th scope="col" class="border px-6 py-3">Aseguradora</th>
                         @if ($user->role_id != 3)
                         <th scope="col" class="border px-6 py-3">Acciones</th>
@@ -44,7 +43,6 @@
                         <td class="border px-6 py-4">{{ $patient->name }}</td>
                         <td class="border px-6 py-4">{{ $patient->last_name }}</td>
                         <td class="border px-6 py-4">{{ $patient->gender }}</td>
-                        <td class="border px-6 py-4">{{ $patient->birth_date}}</td>
                         <td class="border px-6 py-4">{{ $patient->insurance_name }}</td>
                         @if ($user->role_id != 3)
                         <td class="border px-6 py-4">
@@ -84,10 +82,6 @@
                                         <div class="mb-3">
                                             <label for="last_name" class="form-label">Apellido</label><br>
                                             <input name="last_name" value="{{$patient->last_name}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="birth_date" class="form-label">Fecha de nacimiento</label><br>
-                                            <input name="birth_date" value="{{$patient->birth_date}}" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         </div>
                                         <div class="mb-3">
                                             <label for="gender" class="form-label">Genero</label><br>
@@ -141,10 +135,6 @@
                             <div class="mb-3">
                                 <label for="last_name" class="form-label">Apellido</label>
                                 <input required type="text"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="last_name" name="last_name">
-                            </div>
-                            <div class="mb-3">
-                                <label for="birth_date" class="form-label">Fecha de nacimiento</label><br>
-                                <input name="birth_date" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             </div>
                             <div class="mb-3">
                                 <label for="gender" class="form-label">Genero</label><br>

@@ -13,7 +13,6 @@ class Patient extends Model
         "name",
         "last_name",
         "gender",
-        "birth_date",
         "insurance_id"
     ];
 }
