@@ -17,7 +17,7 @@ class PatientController extends Controller
         $patients = Patient::leftJoin('insurances', 'patients.insurance_id', '=', 'insurances.id')
             ->select('patients.id', 'patients.name', 'patients.last_name',"patients.gender",
             'patients.birth_date','patients.insurance_id', 'insurances.name as insurance_name')
-            ->get();
+            ->orderBy('id', 'asc')->get();
 
         $insurances = Insurance::all();
 

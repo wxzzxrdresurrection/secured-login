@@ -21,7 +21,7 @@ class DoctorController extends Controller
         try{
 
             $doctors = Doctor::join('specialties', 'doctors.specialty_id', '=', 'specialties.id')
-                ->select('doctors.*', 'specialties.name as specialty_name')->get();
+                ->select('doctors.*', 'specialties.name as specialty_name')->orderBy('id', 'asc')->get();
 
             return view('doctors', ['doctors' => $doctors, 'specialties' => Specialty::all(), 'user' => Auth::user()]);
 
