@@ -17,7 +17,6 @@ class PatientSeeder extends Seeder
             [
                 "name" => "Josue",
                 "last_name" => "Soto",
-                "birth_date" => "2006-11-15",
                 "gender" => "M",
                 "insurance_id" => 1
             ],
@@ -27,7 +26,6 @@ class PatientSeeder extends Seeder
             [
                 "name" => "Carlos",
                 "last_name" => "Reyes",
-                "birth_date" => "2003-02-14",
                 "gender" => "M",
                 "insurance_id" => 3
             ]
