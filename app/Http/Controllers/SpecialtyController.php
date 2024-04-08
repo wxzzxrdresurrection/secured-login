@@ -19,7 +19,8 @@ class SpecialtyController extends Controller
     public function index()
     {
         try{
-            return view('specialties', ['specialties' => Specialty::all(), 'user' => Auth::user()]);
+            $specialties = Specialty::orderBy('id', 'asc')->get();
+            return view('specialties', ['specialties' => $specialties, 'user' => Auth::user()]);
         }
         catch(ValidationException $e)
         {

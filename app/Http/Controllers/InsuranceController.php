@@ -19,7 +19,8 @@ class InsuranceController extends Controller
     {
         try
         {
-            return view('insurances', ['insurances' => Insurance::all(), 'user' => Auth::user()]);
+            $insurances = Insurance::orderBy('id', 'asc')->get();
+            return view('insurances', ['insurances' => $insurances, 'user' => Auth::user()]);
         }
         catch(ValidationException $e)
         {
